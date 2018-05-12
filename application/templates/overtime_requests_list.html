@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block "title" %}
+  Overtime Requests
+{% endblock %}
+
+{% block "body" %}
+  <ul>
+    {% for ot_request in overtime_requests %}
+      <li>
+        {{ot_request.work_time.user.email}} <button>Accept</button><button>reject</button>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

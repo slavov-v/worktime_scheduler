@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block "title" %}
+  Reports
+{% endblock %}
+
+{% block "body" %}
+  {% for report in object_list %}
+    {{ report.workday.user.email }} <button>Render PDF</button>
+  {% endfor %}
+{% endblock %}

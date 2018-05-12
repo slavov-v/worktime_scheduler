@@ -7,13 +7,15 @@
 {% block "body" %}
   {% if user.is_superuser %}
     <a href="{% url "create-user" %}"><button>Create New User</button></a>
-    <a href=""></a> <!-- Check Overtime Requests Link -->
-    <a href=""></a> <!-- Check User Statuses Link -->
-    <a href=""></a> <!-- Check Reports Link -->
-    <a href=""></a> <!-- Send Email Link -->
+    <a href="{% url "overtime-requests" %}"><button>Check Overtime Requests</button></a> <!-- Check Overtime Requests Link -->
+    <a href=""><button>Check User Statuses TODO</button></a> <!-- Check User Statuses Link -->
+    <a href="{% url "report-list" %}"><button>Check Reports TODO</button></a> <!-- Check Reports Link -->
+    <a href=""><button>Send Email TODO</button></a> <!-- Send Email Link -->
   {% else %}
-    <a href=""></a> <!-- Request Overtime Link -->
-    <a href=""></a> <!-- Edit Personal Data Link -->
+    <a href=""><button>Request Overtime TODO</button></a> <!-- Request Overtime Link -->
+    <a href=""><button>Edit Personal TODO</button></a> <!-- Edit Personal Data Link -->
+    <a href=""><button>Create Report TODO</button></a> <!-- Create Report Link -->
+    <a href=""><button>Create Ticket TODO</button></a> <!-- Create Report Link -->
   {% endif %}
 
 {% endblock %}
