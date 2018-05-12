@@ -52,8 +52,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     is_active = models.BooleanField(_('active'), default=True)
-    position = models.IntegerField(choices=POSITION_CHOICES)
-    hour_salary = models.FloatField()
+    position = models.IntegerField(choices=POSITION_CHOICES, default=DEVELOPER)
+    hour_salary = models.FloatField(default=0)
 
     objects = UserManager()
 

@@ -5,5 +5,15 @@
 {% endblock %}
 
 {% block "body" %}
-  <h1>TODO</h1>
+  {% if user.is_superuser %}
+    <a href="{% url "create-user" %}"><button>Create New User</button></a>
+    <a href=""></a> <!-- Check Overtime Requests Link -->
+    <a href=""></a> <!-- Check User Statuses Link -->
+    <a href=""></a> <!-- Check Reports Link -->
+    <a href=""></a> <!-- Send Email Link -->
+  {% else %}
+    <a href=""></a> <!-- Request Overtime Link -->
+    <a href=""></a> <!-- Edit Personal Data Link -->
+  {% endif %}
+
 {% endblock %}

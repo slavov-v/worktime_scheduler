@@ -12,3 +12,14 @@ def login_service(*, email: str, password: str, request: HttpRequest):
 
         if user.check_password(password):
             login(request, user)
+
+            return user
+
+        return 'Could not authenticate with the provided credentials'
+
+
+def create_user_service(*, email: str, password: str):
+    if User.objects.filter(email=email).exists():
+        return 'User already exists'
+
+    return User.objects.create_user(email=email, password=password, is_active=True)
