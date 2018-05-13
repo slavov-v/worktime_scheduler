@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin, BaseUserManager
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -79,8 +81,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class WorkDay(models.Model):
-    date = models.DateTimeField()
-    hours_worked = models.TimeField()
+    date = models.DateField()
+    hours_worked = models.TimeField(default=datetime.min.time())
     user = models.ForeignKey(User, related_name='work_days', on_delete=models.DO_NOTHING)
 
 
@@ -108,7 +110,7 @@ class OvertimeRequest(models.Model):
     work_time = models.OneToOneField(WorkDay, related_name='overtime_request', on_delete=models.CASCADE)
     status = models.IntegerField(choices=OVERTIME_REQUEST_STATUS_CHOICES)
     user = models.ForeignKey(User, related_name='created_overtime_requests', on_delete=models.CASCADE)
-    employer_id = models.ForeignKey(User, related_name='overtime_requests', on_delete=models.CASCADE)
+    employer = models.ForeignKey(User, related_name='overtime_requests', on_delete=models.CASCADE)
 
 
 class Ticket(models.Model):

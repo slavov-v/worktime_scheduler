@@ -9,13 +9,17 @@
     <a href="{% url "create-user" %}"><button>Create New User</button></a>
     <a href="{% url "overtime-requests" %}"><button>Check Overtime Requests</button></a> <!-- Check Overtime Requests Link -->
     <a href=""><button>Check User Statuses TODO</button></a> <!-- Check User Statuses Link -->
-    <a href="{% url "report-list" %}"><button>Check Reports TODO</button></a> <!-- Check Reports Link -->
+    <a href="{% url "report-list" %}"><button>Check Reports</button></a> <!-- Check Reports Link -->
     <a href=""><button>Send Email TODO</button></a> <!-- Send Email Link -->
   {% else %}
-    <a href=""><button>Request Overtime TODO</button></a> <!-- Request Overtime Link -->
-    <a href=""><button>Edit Personal TODO</button></a> <!-- Edit Personal Data Link -->
-    <a href=""><button>Create Report TODO</button></a> <!-- Create Report Link -->
-    <a href=""><button>Create Ticket TODO</button></a> <!-- Create Report Link -->
+    <a href="{% url "request-overtime" %}"><button>Request Overtime</button></a> <!-- Request Overtime Link -->
+    <a href="{% url "edit-personal-data" %}"><button>Edit Personal</button></a> <!-- Edit Personal Data Link -->
+    <a href="{% url "create-report" %}"><button>Create Report</button></a> <!-- Create Report Link -->
+    <a href="{% url "create-ticket" %}"><button>Create Ticket</button></a> <!-- Create Report Link -->
+    <a href="{% url "add-availability" %}"><button>Add Availability</button></a> <!-- Create Report Link -->
+    <a href="{% url "track-worktime" %}"><button>Track</button></a>
   {% endif %}
+
+  <a href="{% url "logout" %}"><button>Log out</button></a>
 
 {% endblock %}

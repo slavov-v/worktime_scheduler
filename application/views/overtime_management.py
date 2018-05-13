@@ -1,13 +1,15 @@
-from django.views.generic import View, ListView
+from django.views.generic import View, FormView
+from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect, reverse, render
-from django.utils import timezone
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from application.permissions import IsUserAdminPermission
-from application.services import handle_overtime_request_service
-from application.models import OvertimeRequest, Report
+from application.services import handle_overtime_request_service, create_overtime_request_service
+from application.models import OvertimeRequest
+from application.forms import RequestOvertimeForm
 
 
-class HandleOvertimeRequestView(IsUserAdminPermission, View):
+class HandleOvertimeRequestView(LoginRequiredMixin, IsUserAdminPermission, View):
     def post(self, request, *args, **kwargs):
         overtime_request = get_object_or_404(OvertimeRequest,
                                              id=request.POST.get('ot_request_id'),
@@ -24,3 +26,14 @@ class HandleOvertimeRequestView(IsUserAdminPermission, View):
         }
 
         return render(request, 'overtime_requests_list.html', context)
+
+
+class RequestOvertimeView(LoginRequiredMixin, FormView):
+    form_class = RequestOvertimeForm
+    template_name = 'request_overtime.html'
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        create_overtime_request_service(**form.cleaned_data, user=self.request.user)
+
+        return super().form_valid()

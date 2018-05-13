@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block "title" %}
+  Create User
+{% endblock %}
+
+{% block "body" %}
+  {% csrf_token %}
+  <div class="progress">
+    <div id="progressbar" class="progress-bar" role="progressbar" aria-valuenow="0"
+         aria-valuemin="0" aria-valuemax="8" style="width:0%">
+      <span class="sr-only">70% Complete</span>
+    </div>
+  </div>
+
+  <script>
+   function convertTimeToSeconds(timeString) {
+       var timeData = timeString.split(":");
+       return parseInt(timeData[0]) * 3600 + parseInt(timeData[1] * 60) + parseInt(timeData[2]);
+   }
+
+   function calculatePBPercentage(seconds) {
+       return (seconds / (8 * 3600)) * 100
+   }
+
+
+   function addTime() {
+       var url = {% url "track-worktime" %};
+       var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+
+       $.ajax({
+           url: url,
+           type: "post",
+           headers: {
+               "X-CSRFToken": csrftoken
+           },
+           success: function(data) {
+               var seconds = convertTimeToSeconds(data.hours_worked);
+               var percentage = calculatePBPercentage(seconds);
+               console.log(percentage)
+               console.log(data)
+               $("#progressbar").css("width", percentage.toString() + "%")
+           }
+       })
+   }
+
+   setInterval(addTime, 5000)
+  </script>
+{% endblock %}
