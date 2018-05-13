@@ -84,6 +84,7 @@ class WorkDay(models.Model):
     date = models.DateField()
     hours_worked = models.TimeField(default=datetime.min.time())
     user = models.ForeignKey(User, related_name='work_days', on_delete=models.DO_NOTHING)
+    last_set = models.DateTimeField(default=datetime.min)
 
 
 class Report(models.Model):

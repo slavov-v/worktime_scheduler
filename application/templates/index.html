@@ -11,6 +11,7 @@
     <a href=""><button>Check User Statuses TODO</button></a> <!-- Check User Statuses Link -->
     <a href="{% url "report-list" %}"><button>Check Reports</button></a> <!-- Check Reports Link -->
     <a href=""><button>Send Email TODO</button></a> <!-- Send Email Link -->
+        <a href="{% url "user-status-list" %}"><button>Check Users</button></a>
   {% else %}
     <a href="{% url "request-overtime" %}"><button>Request Overtime</button></a> <!-- Request Overtime Link -->
     <a href="{% url "edit-personal-data" %}"><button>Edit Personal</button></a> <!-- Edit Personal Data Link -->

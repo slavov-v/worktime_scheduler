@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block "title" %}
+  Users
+{% endblock %}
+
+{% block "body" %}
+  {% for user_data in result_list %}
+    {{ user_data.user_email }} {{ user_data.status }} <br/>
+  {% endfor %}
+{% endblock %}
