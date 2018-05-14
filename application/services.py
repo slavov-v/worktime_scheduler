@@ -8,7 +8,7 @@ from application.models import User, OvertimeRequest, WorkDay, Report, Ticket
 
 
 def login_service(*, email: str, password: str, request: HttpRequest):
-    user_qs = User.objects.filter(email=email)
+    user_qs = User.objects.filter(email=email, is_active=True)
 
     if user_qs.exists():
         user = user_qs.first()
@@ -59,3 +59,40 @@ def add_availability_service(*, user: User, date: datetime):
         return 'Availability for this day has already been created'
 
     return WorkDay.objects.create(date=date, user=user)
+
+
+def edit_user_work_data_service(*, user: User, position: int, hour_salary: float):
+    user.position = position
+    user.hour_salary = hour_salary
+
+    user.save()
+
+    return user
+
+
+def calculate_salary_service(*, user: User):
+    workdays = WorkDay.objects.filter(user=user,
+                                      date__lte=timezone.now().date(),
+                                      date__gte=timezone.now().replace(day=1).date())
+
+    total = 0
+
+    for workday in workdays:
+        total += workday.hours_worked.hour * user.hour_salary
+
+    return total
+
+
+def check_user_work_history_service(*, user):
+    workdays = WorkDay.objects.filter(user=user,
+                                      date__lte=timezone.now().date(),
+                                      date__gte=timezone.now().replace(day=1).date())
+
+    return workdays
+
+
+def delete_user_service(*, user: User):
+    user.is_active = False
+    user.save()
+
+    return user

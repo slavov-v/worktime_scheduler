@@ -2,9 +2,10 @@ from django.views.generic import FormView, View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import logout
 from django.urls import reverse_lazy, reverse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
+from django.http import JsonResponse
 
-from application.services import login_service, create_user_service, update_personal_data_service
+from application.services import login_service, create_user_service, update_personal_data_service, delete_user_service
 from application.forms import CredentialsForm, EditPersonalDataForm
 from application.models import User
 from application.permissions import IsUserAdminPermission
@@ -60,3 +61,13 @@ class EditPersonalDataView(LoginRequiredMixin, FormView):
         update_personal_data_service(**form.cleaned_data, user=self.request.user)
 
         return super().form_valid(form)
+
+
+class DeleteUserView(LoginRequiredMixin, IsUserAdminPermission, View):
+    login_url = reverse_lazy('login')
+
+    def get(self, request, *args, **kwargs):
+        user = get_object_or_404(User, id=kwargs.get('user_id'))
+        deleted = delete_user_service(user=user)
+
+        return JsonResponse({'email': deleted.email})

@@ -4,9 +4,19 @@ from .views.user_management import (
     LoginView,
     CreateUserView,
     EditPersonalDataView,
-    LogOutView
+    LogOutView,
+    DeleteUserView
 )
-from .views.general import IndexView, CreateTicketView, AddAvailabilityView, TrackDailyWorktimeView, UserStatusList
+from .views.general import (
+    IndexView,
+    CreateTicketView,
+    AddAvailabilityView,
+    TrackDailyWorktimeView,
+    UserStatusList,
+    EditUserWorkDataView,
+    CalculateSalaryView,
+    UserWorkHistoryView
+)
 from .views.overtime_management import HandleOvertimeRequestView, RequestOvertimeView
 from .views.report_management import ListDailyReports, CreateReportView
 
@@ -15,6 +25,7 @@ user_management_paths = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogOutView.as_view(), name='logout'),
     path('create-user/', CreateUserView.as_view(), name='create-user'),
+    path('delete-user/<int:user_id>/', DeleteUserView.as_view(), name='delete-user'),
     path('edit-personal-data', EditPersonalDataView.as_view(), name='edit-personal-data')
 ]
 
@@ -36,5 +47,8 @@ urlpatterns = [
     path('create-ticket/', CreateTicketView.as_view(), name='create-ticket'),
     path('add-availability/', AddAvailabilityView.as_view(), name='add-availability'),
     path('track-worktime/', TrackDailyWorktimeView.as_view(), name='track-worktime'),
-    path('user-statuses/', UserStatusList.as_view(), name='user-status-list')
+    path('user-statuses/', UserStatusList.as_view(), name='user-status-list'),
+    path('edit-work-data/<int:user_id>/', EditUserWorkDataView.as_view(), name='edit-user-work-data'),
+    path('calculate-salary/<int:user_id>/', CalculateSalaryView.as_view(), name='calculate-salary'),
+    path('work-history/<int:user_id>/', UserWorkHistoryView.as_view(), name='user-work-history')
 ] + user_management_paths + overtime_management_paths + report_management_paths

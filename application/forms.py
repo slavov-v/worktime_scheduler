@@ -28,3 +28,8 @@ class CreateTicketForm(forms.Form):
 
 class AddAvailabilityForm(forms.Form):
     date = forms.DateTimeField(widget=forms.SelectDateWidget())
+
+
+class EditUserWorkDataForm(forms.Form):
+    position = forms.ChoiceField(choices=User.POSITION_CHOICES)
+    hour_salary = forms.FloatField()

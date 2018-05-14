@@ -6,6 +6,25 @@
 
 {% block "body" %}
   {% for user_data in result_list %}
-    {{ user_data.user_email }} {{ user_data.status }} <br/>
+    {{ user_data.user_email }} {{ user_data.status }}
+    <a href="{% url "edit-user-work-data" user_data.user_id %}"><button>Edit Work Data</button></a>
+    <button onClick="callCalculateAPI('{% url "calculate-salary" user_data.user_id %}')">Calculate Salary</button>
+    <a href={% url "user-work-history" user_data.user_id %}><button>Check Work History</button></a>
+    <a><button>Calculate Vacation</button></a>
+    <a><button onClick="callDeleteUserAPI('{% url "delete-user" user_data.user_id %}')">Delete User</button></a>
   {% endfor %}
+
+  <script>
+   function callCalculateAPI(url){
+       $.get(url, function(data){
+           alert(data.user_email + " salary: " + data.salary);
+       });
+   }
+
+   function callDeleteUserAPI(url){
+       $.get(url, function(data){
+           alert(data.email + " has been deleted.");
+       });
+   }
+  </script>
 {% endblock %}

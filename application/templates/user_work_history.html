@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block "title" %}
+  User Work History
+{% endblock %}
+
+{% block "body" %}
+  {% for workday in workdays %}
+    {{ workday.date }} - {{ workday.hours_worked.hour }}:{% if workday.hours_worked.minute < 10%}0{% endif %}{{ workday.hours_worked.minute}}
+  {% endfor %}
+{% endblock %}
