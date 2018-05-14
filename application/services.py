@@ -3,6 +3,7 @@ import uuid
 from datetime import datetime
 from fpdf import FPDF
 
+from django.core.mail import send_mail
 from django.core.files.base import ContentFile
 from django.contrib.auth import login
 from django.http import HttpRequest
@@ -130,3 +131,7 @@ def generate_report_pdf(*, report: Report=None):
     os.remove(filename)
 
     return report.document.url
+
+
+def send_email_service(*, subject, sender, to, content):
+    send_mail(subject, content, sender, [to], fail_silently=False)

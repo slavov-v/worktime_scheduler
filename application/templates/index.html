@@ -9,7 +9,7 @@
     <a href="{% url "create-user" %}"><button>Create New User</button></a>
     <a href="{% url "overtime-requests" %}"><button>Check Overtime Requests</button></a>
     <a href="{% url "report-list" %}"><button>Check Reports</button></a>
-    <a href=""><button>Send Email TODO</button></a> <!-- Send Email Link -->
+    <a href="{% url "send-email" %}"><button>Send Email</button></a> <!-- Send Email Link -->
     <a href="{% url "user-status-list" %}"><button>Check Users</button></a>
   {% else %}
     <a href="{% url "request-overtime" %}"><button>Request Overtime</button></a>

@@ -17,7 +17,8 @@ from .views.general import (
     CalculateSalaryView,
     UserWorkHistoryView,
     CheckUserDataView,
-    CalculateVacationView
+    CalculateVacationView,
+    SendEmailView
 )
 from .views.overtime_management import HandleOvertimeRequestView, RequestOvertimeView
 from .views.report_management import ListDailyReports, CreateReportView, CreateReportCommentView
@@ -54,5 +55,6 @@ urlpatterns = [
     path('calculate-salary/<int:user_id>/', CalculateSalaryView.as_view(), name='calculate-salary'),
     path('work-history/<int:user_id>/', UserWorkHistoryView.as_view(), name='user-work-history'),
     path('check-user-data/<int:user_id>/', CheckUserDataView.as_view(), name='check-user-data'),
-    path('calculate-vacation/<int:user_id>/', CalculateVacationView.as_view(), name='calculate-vacation')
+    path('calculate-vacation/<int:user_id>/', CalculateVacationView.as_view(), name='calculate-vacation'),
+    path('send-email', SendEmailView.as_view(), name='send-email')
 ] + user_management_paths + overtime_management_paths + report_management_paths

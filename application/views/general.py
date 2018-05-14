@@ -13,9 +13,10 @@ from application.services import (
     edit_user_work_data_service,
     calculate_salary_service,
     check_user_work_history_service,
-    calculate_worker_vacation_service
+    calculate_worker_vacation_service,
+    send_email_service
 )
-from application.forms import CreateTicketForm, AddAvailabilityForm, EditUserWorkDataForm
+from application.forms import CreateTicketForm, AddAvailabilityForm, EditUserWorkDataForm, SendEmailForm
 from application.models import WorkDay, User
 from application.permissions import IsUserAdminPermission
 
@@ -117,7 +118,7 @@ class EditUserWorkDataView(LoginRequiredMixin, IsUserAdminPermission, FormView):
     form_class = EditUserWorkDataForm
     template_name = "edit_work_data.html"
     success_url = reverse_lazy('index')
-    login_url = reverse_lazy('index')
+    login_url = reverse_lazy('login')
 
     def form_valid(self, form):
         user = get_object_or_404(User, id=self.kwargs.get('user_id'))
@@ -134,7 +135,7 @@ class EditUserWorkDataView(LoginRequiredMixin, IsUserAdminPermission, FormView):
 
 
 class CalculateSalaryView(LoginRequiredMixin, IsUserAdminPermission, View):
-    login_url = reverse_lazy('index')
+    login_url = reverse_lazy('login')
 
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, id=kwargs.get('user_id'))
@@ -144,7 +145,7 @@ class CalculateSalaryView(LoginRequiredMixin, IsUserAdminPermission, View):
 
 
 class UserWorkHistoryView(LoginRequiredMixin, IsUserAdminPermission, TemplateView):
-    login_url = reverse_lazy('index')
+    login_url = reverse_lazy('login')
     template_name = "user_work_history.html"
 
     def get_context_data(self, **kwargs):
@@ -157,7 +158,7 @@ class UserWorkHistoryView(LoginRequiredMixin, IsUserAdminPermission, TemplateVie
 
 
 class CalculateVacationView(LoginRequiredMixin, IsUserAdminPermission, View):
-    login_url = reverse_lazy('index')
+    login_url = reverse_lazy('login')
 
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, id=kwargs.get('user_id'))
@@ -167,7 +168,7 @@ class CalculateVacationView(LoginRequiredMixin, IsUserAdminPermission, View):
 
 
 class CheckUserDataView(LoginRequiredMixin, IsUserAdminPermission, View):
-    login_url = reverse_lazy('index')
+    login_url = reverse_lazy('login')
 
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, id=kwargs.get('user_id'))
@@ -177,3 +178,15 @@ class CheckUserDataView(LoginRequiredMixin, IsUserAdminPermission, View):
             'first_name': user.first_name,
             'last_name': user.last_name
         })
+
+
+class SendEmailView(LoginRequiredMixin, IsUserAdminPermission, FormView):
+    form_class = SendEmailForm
+    login_url = reverse_lazy('login')
+    template_name = 'send_email.html'
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        send_email_service(**form.cleaned_data, sender=self.request.user.email)
+
+        return super().form_valid(form)

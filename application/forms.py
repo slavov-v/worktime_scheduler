@@ -38,3 +38,9 @@ class EditUserWorkDataForm(forms.Form):
 class CreateReportCommentForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea)
     report = forms.ModelChoiceField(queryset=Report.objects.all())
+
+
+class SendEmailForm(forms.Form):
+    subject = forms.CharField()
+    content = forms.CharField(widget=forms.Textarea)
+    to = forms.EmailField()
