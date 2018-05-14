@@ -4,8 +4,34 @@
   Reports
 {% endblock %}
 
-{% block "body" %}
-  {% for report in object_list %}
-    {{ report.workday.user.email }} <button>Render PDF</button>
-  {% endfor %}
+{% block "content" %}
+    <div class="card mb-3">
+    <div class="card-header">
+      <i class="fa fa-table"></i> Reports</div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Created By</th>
+              <th>Render PDF</th>
+             </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Created By</th>
+              <th>Render PDF</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for report in object_list %}
+              <tr>
+                <td>{{ report.workday.user.email }}</td>
+                <td><button class="btn btn-primary">Render PDF</button></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
 {% endblock %}

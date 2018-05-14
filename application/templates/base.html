@@ -1,23 +1,178 @@
-<!doctype html>
-<html>
-  <head>
-    <title>
-      {% block "title" %}
-      {% endblock %}
-    </title>
-    <meta charset="utf-8" />
-    <!-- Latest compiled and minified CSS -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>
+    {% block "title" %}
+
+    {% endblock %}
+  </title>
+  <!-- Bootstrap core CSS-->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom fonts for this template-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="{% static "sb-admin.css" %}" rel="stylesheet">
+</head>
+
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <a class="navbar-brand" href="{% url "index" %}">Worktime Scheduler</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
+        {% if user.is_superuser %}
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "user-status-list" %}">
+             <i class="fa fa-fw fa-table"></i>
+             <span class="nav-link-text">User Statuses</span>
+           </a>
+         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "report-list" %}">
+             <i class="fa fa-fw fa-table"></i>
+             <span class="nav-link-text">Reports</span>
+           </a>
+         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "overtime-requests" %}">
+             <i class="fa fa-fw fa-table"></i>
+             <span class="nav-link-text">Overtime Requests</span>
+           </a>
+         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "create-user" %}">
+             <i class="fa fa-fw fa-file"></i>
+             <span class="nav-link-text">Create User</span>
+           </a>
+         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "send-email" %}">
+             <i class="fa fa-fw fa-file"></i>
+             <span class="nav-link-text">Send Email</span>
+           </a>
+         </li>
+        {% else %}
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "track-worktime" %}">
+             <i class="fa fa-fw fa-briefcase"></i>
+             <span class="nav-link-text">Start Tracker</span>
+           </a>
+         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "edit-personal-data" %}">
+             <i class="fa fa-fw fa-file"></i>
+             <span class="nav-link-text">Edit Personal Data</span>
+           </a>
+         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "request-overtime" %}">
+             <i class="fa fa-fw fa-file"></i>
+             <span class="nav-link-text">Request Overtime</span>
+           </a>
+         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "add-availability" %}">
+             <i class="fa fa-fw fa-file"></i>
+             <span class="nav-link-text">Add Availability</span>
+           </a>
+         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "create-report" %}">
+             <i class="fa fa-fw fa-file"></i>
+             <span class="nav-link-text">Create Report</span>
+           </a>
+         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "create-report-comment" %}">
+             <i class="fa fa-fw fa-file"></i>
+             <span class="nav-link-text">Create Report Comment</span>
+           </a>
+         </li>
+         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+           <a class="nav-link" href="{% url "create-ticket" %}">
+             <i class="fa fa-fw fa-file"></i>
+             <span class="nav-link-text">Create Ticket</span>
+           </a>
+         </li>
+        {% endif %}
+      </ul>
+      <ul class="navbar-nav sidenav-toggler">
+        <li class="nav-item">
+          <a class="nav-link text-center" id="sidenavToggler">
+            <i class="fa fa-fw fa-angle-left"></i>
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href={% url "logout" %} class="nav-link">
+            <i class="fa fa-fw fa-sign-out"></i>Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <div class="content-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          {% block "content" %}
+          {% endblock %}
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer">
+      <div class="container">
+        <div class="text-center">
+          <small>Worktime Scheduler</small>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fa fa-angle-up"></i>
+    </a>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
     <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static "sb-admin.min.js" %}"></script>
+  </div>
+</body>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  </head>
-  <body>
-    {% block "body" %}
-    {% endblock %}
-  </body>
 </html>

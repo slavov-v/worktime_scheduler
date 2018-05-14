@@ -34,6 +34,10 @@ class EditUserWorkDataForm(forms.Form):
     position = forms.ChoiceField(choices=User.POSITION_CHOICES)
     hour_salary = forms.FloatField()
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['position'].widget.attrs['class'] = 'form-control'
+
 
 class CreateReportCommentForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea)

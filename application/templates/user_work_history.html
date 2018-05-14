@@ -4,8 +4,34 @@
   User Work History
 {% endblock %}
 
-{% block "body" %}
-  {% for workday in workdays %}
-    {{ workday.date }} - {{ workday.hours_worked.hour }}:{% if workday.hours_worked.minute < 10%}0{% endif %}{{ workday.hours_worked.minute}}
-  {% endfor %}
+{% block "content" %}
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fa fa-table"></i> Overtime Requests</div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Hours</th>
+            </tr>
+          </thead>
+          <tfoot>
+            <tr>
+              <th>Date</th>
+              <th>Hours</th>
+            </tr>
+          </tfoot>
+          <tbody>
+            {% for workday in workdays %}
+              <tr>
+                <td>{{ workday.date }}</td>
+                <td>{{ workday.hours_worked.hour }}:{% if workday.hours_worked.minute < 10%}0{% endif %}{{ workday.hours_worked.minute}}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
 {% endblock %}

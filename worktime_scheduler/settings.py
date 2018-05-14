@@ -123,6 +123,10 @@ AUTH_USER_MODEL = 'application.User'
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),  # your static/ files folder
+]
+
 MEDIA_ROOT = BASE_DIR + '/media'
 MEDIA_URL = '/media/'
 MEDIA_LOCATION = 'media'
