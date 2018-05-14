@@ -3,10 +3,10 @@ from django.utils import timezone
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from application.forms import CreateReportForm
+from application.forms import CreateReportForm, CreateReportCommentForm
 from application.permissions import IsUserAdminPermission
 from application.models import Report
-from application.services import create_report_service
+from application.services import create_report_service, create_report_comment_service
 
 
 class ListDailyReports(LoginRequiredMixin, IsUserAdminPermission, ListView):
@@ -18,7 +18,7 @@ class ListDailyReports(LoginRequiredMixin, IsUserAdminPermission, ListView):
         return Report.objects.filter(workday__date=timezone.now())
 
 
-class CreateReportView(FormView):
+class CreateReportView(LoginRequiredMixin, FormView):
     form_class = CreateReportForm
     success_url = reverse_lazy('index')
     template_name = 'create_report.html'
@@ -26,5 +26,17 @@ class CreateReportView(FormView):
 
     def form_valid(self, form):
         create_report_service(user=self.request.user, content=form.cleaned_data.get('content'))
+
+        return super().form_valid(form)
+
+
+class CreateReportCommentView(LoginRequiredMixin, FormView):
+    form_class = CreateReportCommentForm
+    success_url = reverse_lazy('index')
+    template_name = 'create_report_comment.html'
+    login_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        create_report_comment_service(**form.cleaned_data)
 
         return super().form_valid(form)

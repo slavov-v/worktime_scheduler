@@ -1,6 +1,6 @@
 from django import forms
 
-from application.models import User
+from application.models import User, Report
 
 
 class CredentialsForm(forms.Form):
@@ -33,3 +33,8 @@ class AddAvailabilityForm(forms.Form):
 class EditUserWorkDataForm(forms.Form):
     position = forms.ChoiceField(choices=User.POSITION_CHOICES)
     hour_salary = forms.FloatField()
+
+
+class CreateReportCommentForm(forms.Form):
+    content = forms.CharField(widget=forms.Textarea)
+    report = forms.ModelChoiceField(queryset=Report.objects.all())

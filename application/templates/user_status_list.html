@@ -7,10 +7,11 @@
 {% block "body" %}
   {% for user_data in result_list %}
     {{ user_data.user_email }} {{ user_data.status }}
+    <button onClick="callUserDataAPI('{% url "check-user-data" user_data.user_id %}')">Check Personal Data</button>
     <a href="{% url "edit-user-work-data" user_data.user_id %}"><button>Edit Work Data</button></a>
     <button onClick="callCalculateAPI('{% url "calculate-salary" user_data.user_id %}')">Calculate Salary</button>
     <a href={% url "user-work-history" user_data.user_id %}><button>Check Work History</button></a>
-    <a><button>Calculate Vacation</button></a>
+    <button onClick="callVacationCalculationAPI('{% url "calculate-vacation" user_data.user_id %}')">Calculate Vacation</button>
     <a><button onClick="callDeleteUserAPI('{% url "delete-user" user_data.user_id %}')">Delete User</button></a>
   {% endfor %}
 
@@ -25,6 +26,20 @@
        $.get(url, function(data){
            alert(data.email + " has been deleted.");
        });
+   }
+
+   function callUserDataAPI(url) {
+       $.get(url, function(data){
+           alert("Email: " +  data.email + "\n" +
+                 "First Name: " + data.first_name + "\n" +
+                 "Last Name: " + data.last_name)
+       })
+   }
+
+   function callVacationCalculationAPI(url) {
+       $.get(url, function(data){
+           alert(data.vacation_days + " days")
+       })
    }
   </script>
 {% endblock %}

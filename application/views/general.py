@@ -12,7 +12,8 @@ from application.services import (
     add_availability_service,
     edit_user_work_data_service,
     calculate_salary_service,
-    check_user_work_history_service
+    check_user_work_history_service,
+    calculate_worker_vacation_service
 )
 from application.forms import CreateTicketForm, AddAvailabilityForm, EditUserWorkDataForm
 from application.models import WorkDay, User
@@ -159,4 +160,20 @@ class CalculateVacationView(LoginRequiredMixin, IsUserAdminPermission, View):
     login_url = reverse_lazy('index')
 
     def get(self, request, *args, **kwargs):
-        pass
+        user = get_object_or_404(User, id=kwargs.get('user_id'))
+        vacation = calculate_worker_vacation_service(user=user)
+
+        return JsonResponse({'vacation_days': f'{vacation:.2f}'})
+
+
+class CheckUserDataView(LoginRequiredMixin, IsUserAdminPermission, View):
+    login_url = reverse_lazy('index')
+
+    def get(self, request, *args, **kwargs):
+        user = get_object_or_404(User, id=kwargs.get('user_id'))
+
+        return JsonResponse({
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name
+        })

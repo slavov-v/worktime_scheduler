@@ -1,3 +1,5 @@
+import os
+import uuid
 from datetime import datetime
 
 from django.db import models
@@ -87,9 +89,17 @@ class WorkDay(models.Model):
     last_set = models.DateTimeField(default=datetime.min)
 
 
+def get_report_pdf_name(instance, filename):
+    _, extension = os.path.splitext(filename)
+    prefix = 'reports'
+
+    return f'{prefix}/{uuid.uuid4().hex}{extension}'
+
+
 class Report(models.Model):
     workday = models.OneToOneField(WorkDay, related_name='report', on_delete=models.DO_NOTHING)
     content = models.TextField()
+    document = models.FileField(blank=True, null=True, upload_to=get_report_pdf_name)
 
 
 class ReportComment(models.Model):

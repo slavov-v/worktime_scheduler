@@ -1,10 +1,14 @@
+import os
+import uuid
 from datetime import datetime
+from fpdf import FPDF
 
+from django.core.files.base import ContentFile
 from django.contrib.auth import login
 from django.http import HttpRequest
 from django.utils import timezone
 
-from application.models import User, OvertimeRequest, WorkDay, Report, Ticket
+from application.models import User, OvertimeRequest, WorkDay, Report, Ticket, ReportComment
 
 
 def login_service(*, email: str, password: str, request: HttpRequest):
@@ -96,3 +100,33 @@ def delete_user_service(*, user: User):
     user.save()
 
     return user
+
+
+def create_report_comment_service(*, report: Report, content: str):
+    return ReportComment.objects.create(report=report, content=content)
+
+
+def calculate_worker_vacation_service(*, user: User):
+    passed_workdays = WorkDay.objects.filter(date__lte=timezone.now().date(),
+                                             date__gte=timezone.now().replace(month=1, day=1).date()).count()
+
+    return (passed_workdays / 12) * 1.67
+
+
+def generate_report_pdf(*, report: Report=None):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font('Arial', 'B', 14)
+    pdf.cell(100, 100, report.content)
+    filename = f'{uuid.uuid4().hex}.pdf'
+
+    pdf.output(filename, 'F')
+
+    with open(filename, 'rb') as f:
+        new_file = ContentFile(f.read(), filename)
+        report.document = new_file
+        report.save()
+
+    os.remove(filename)
+
+    return report.document.url
