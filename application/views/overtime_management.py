@@ -36,4 +36,4 @@ class RequestOvertimeView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         create_overtime_request_service(**form.cleaned_data, user=self.request.user)
 
-        return super().form_valid()
+        return super().form_valid(form)
