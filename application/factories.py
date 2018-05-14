@@ -1,6 +1,7 @@
 import factory
 import faker
 import datetime
+from factory.fuzzy import FuzzyChoice
 
 from django.utils import timezone
 
@@ -14,7 +15,8 @@ class UserFactory(factory.DjangoModelFactory):
     first_name = factory.LazyAttribute(lambda _: fake.first_name())
     last_name = factory.LazyAttribute(lambda _: fake.last_name())
     is_active = True
-    position = factory.fuzzy.FuzzyChoice(choice for choice, _ in User.POSITION_CHOICES)
+    is_superuser = False
+    position = FuzzyChoice(choice for choice, _ in User.POSITION_CHOICES)
     hour_salary = factory.LazyAttribute(lambda _: fake.random_number())
 
     class Meta:

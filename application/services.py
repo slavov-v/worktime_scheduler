@@ -41,7 +41,13 @@ def handle_overtime_request_service(overtime_request: OvertimeRequest, status):
 
 
 def create_overtime_request_service(*, date: datetime, employer: User, user: User):
-    return OvertimeRequest.objects.create(date=date, employer=employer, user=user)
+    workday_qs = WorkDay.objects.filter(user=user, date=date)
+    if not workday_qs.exists():
+        return 'You need to add availability for this day first'
+
+    workday = workday_qs.first()
+
+    return OvertimeRequest.objects.create(work_time=workday, employer=employer, user=user)
 
 
 def update_personal_data_service(*, first_name: str, last_name: str, user: User):
@@ -111,7 +117,7 @@ def calculate_worker_vacation_service(*, user: User):
     passed_workdays = WorkDay.objects.filter(date__lte=timezone.now().date(),
                                              date__gte=timezone.now().replace(month=1, day=1).date()).count()
 
-    return (passed_workdays / 12) * 1.67
+    return (passed_workdays / 20) * 1.67
 
 
 def generate_report_pdf(*, report: Report=None):

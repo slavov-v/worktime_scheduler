@@ -119,7 +119,7 @@ class OvertimeRequest(models.Model):
     )
 
     work_time = models.OneToOneField(WorkDay, related_name='overtime_request', on_delete=models.CASCADE)
-    status = models.IntegerField(choices=OVERTIME_REQUEST_STATUS_CHOICES)
+    status = models.IntegerField(choices=OVERTIME_REQUEST_STATUS_CHOICES, default=PENDING)
     user = models.ForeignKey(User, related_name='created_overtime_requests', on_delete=models.CASCADE)
     employer = models.ForeignKey(User, related_name='overtime_requests', on_delete=models.CASCADE)
 
