@@ -358,3 +358,5 @@ pip-selfcheck.json
 
 shared
 db.sqlite3
+
+media/
