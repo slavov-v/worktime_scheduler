@@ -9,7 +9,7 @@
     <div class="card-header">
       <i class="fa fa-file"></i> Edit Work Data</div>
     <div class="card-body">
-      <form method="POST" action={% url "edit-work-data" %}>
+      <form method="POST" action={% url "edit-user-work-data" user_id%}>
         {% csrf_token %}
         <div class="form-group">
           <div class="form-row">

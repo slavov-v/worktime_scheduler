@@ -4,8 +4,9 @@
   Create User
 {% endblock %}
 
-{% block "body" %}
+{% block "content" %}
   {% csrf_token %}
+  <h4>Your worktime is now being tracked</h4>
   <div class="progress">
     <div id="progressbar" class="progress-bar" role="progressbar" aria-valuenow="0"
          aria-valuemin="0" aria-valuemax="8" style="width:0%">

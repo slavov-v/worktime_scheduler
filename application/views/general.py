@@ -59,8 +59,7 @@ class TrackDailyWorktimeView(LoginRequiredMixin, View):
     login_url = reverse_lazy('login')
 
     def get(self, request, *args, **kwargs):
-        workday_qs = WorkDay.objects.filter(user=request.user, date=timezone.now().date())
-        workday = workday_qs.first()
+        workday = get_object_or_404(WorkDay, user=request.user, date=timezone.now().date())
 
         if request.is_ajax():
             return JsonResponse({'hours_worked': str(workday.hours_worked)})
@@ -76,7 +75,7 @@ class TrackDailyWorktimeView(LoginRequiredMixin, View):
         workday = workday_qs.first()
         new_workhours = dt.datetime.combine(dt.datetime(1, 1, 1).date(), workday.hours_worked) + dt.timedelta(seconds=5)
         workday.hours_worked = new_workhours
-        workday.last_set = timezone.now
+        workday.last_set = timezone.now()
         workday.save()
 
         return JsonResponse({'hours_worked': str(new_workhours.time())})

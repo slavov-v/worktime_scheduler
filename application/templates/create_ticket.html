@@ -1,13 +1,29 @@
 {% extends "base.html" %}
 
 {% block "title" %}
-  Create Report
+  Create Ticket
 {% endblock %}
 
-{% block "body" %}
-  <form method="POST" action={% url "create-ticket" %}>
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Create Ticket"/>
-  </form>
+{% block "content" %}
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fa fa-file"></i> Create Report Comment</div>
+    <div class="card-body">
+      <form method="POST" action={% url "create-ticket" %}>
+        {% csrf_token %}
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col-md-6">
+              <label>Content</label>
+              <textarea class=form-control name="content" cols="40" rows="10" required></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6">
+            <input class="btn btn-primary btn-block" type="submit" value="Submit"/>
+          </div>
+        </div>
+      </form></div>
+  </div>
 {% endblock %}

@@ -4,10 +4,32 @@
   Log In
 {% endblock %}
 
-{% block "body" %}
-  <form method="POST" action={% url "request-overtime" %}>
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit"/>
-  </form>
+{% block "content" %}
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fa fa-file"></i> Request Overtime</div>
+    <div class="card-body">
+      <form method="POST" action={% url "request-overtime" %}>
+        {% csrf_token %}
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col-md-6">
+              <label>Date</label>
+              {{ form.date }}
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6">
+              <label>Employer</label>
+              {{ form.employer }}
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6">
+            <input class="btn btn-primary btn-block" type="submit" value="Submit"/>
+          </div>
+        </div>
+      </form></div>
+  </div>
 {% endblock %}

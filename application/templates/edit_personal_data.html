@@ -4,10 +4,32 @@
   Edit Data
 {% endblock %}
 
-{% block "body" %}
-  <form method="POST" action={% url "edit-personal-data" %}>
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit"/>
-  </form>
+{% block "content" %}
+  <div class="card mb-3">
+    <div class="card-header">
+      <i class="fa fa-file"></i> Edit Personal Data</div>
+    <div class="card-body">
+      <form method="POST" action={% url "edit-personal-data" %}>
+        {% csrf_token %}
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col-md-6">
+              <label>First Name</label>
+              <input class="form-control" type="text" step="any" name="first_name" required placeholder="First Name">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-md-6">
+              <label>Last Name</label>
+              <input class="form-control" type="text" step="any" name="last_name" required placeholder="Last Name">
+            </div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6">
+            <input class="btn btn-primary btn-block" type="submit" value="Submit"/>
+          </div>
+        </div>
+      </form></div>
+  </div>
 {% endblock %}

@@ -9,8 +9,13 @@ class CredentialsForm(forms.Form):
 
 
 class RequestOvertimeForm(forms.Form):
-    date = forms.DateField()
+    date = forms.DateField(widget=forms.SelectDateWidget())
     employer = forms.ModelChoiceField(queryset=User.objects.filter(is_superuser=True))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['employer'].widget.attrs['class'] = 'form-control'
+        self.fields['date'].widget.attrs['class'] = 'form-control'
 
 
 class EditPersonalDataForm(forms.Form):
@@ -29,6 +34,10 @@ class CreateTicketForm(forms.Form):
 class AddAvailabilityForm(forms.Form):
     date = forms.DateTimeField(widget=forms.SelectDateWidget())
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['date'].widget.attrs['class'] = 'form-control'
+
 
 class EditUserWorkDataForm(forms.Form):
     position = forms.ChoiceField(choices=User.POSITION_CHOICES)
@@ -42,6 +51,10 @@ class EditUserWorkDataForm(forms.Form):
 class CreateReportCommentForm(forms.Form):
     content = forms.CharField(widget=forms.Textarea)
     report = forms.ModelChoiceField(queryset=Report.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['report'].widget.attrs['class'] = 'form-control'
 
 
 class SendEmailForm(forms.Form):
